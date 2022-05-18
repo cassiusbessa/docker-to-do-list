@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+  todofront:
+    image: todofrontend
+    #container_name: todofront
+    #build:
+      #context: ./todo-app/frontend
+      #dockerfile: Dockerfile
+    #volumes:
+      #- ./frontend:/app
+      #- frontend_volume:/app/node_modules
+    environment:
+      - REACT_APP_API_HOST=todoback
+    depends_on:
+      - todoback 
+    ports:
+      - 3000:3000
+  todoback:
+    image: todobackend
+    #container_name: todoback
+    #build:
+      #context: ./todo-app/backend
+      #dockerfile: Dockerfile
+    #volumes:
+      #- ./backend:/app
+      #- backend_volume:/app/node_modules
+    ports:
+      - 3001:3001
+  todotests:
+    image: todotests
+    #container_name: todotests
+    #build:
+      #context: ./todo-app/tests
+      #dockerfile: Dockerfile    
+    environment:
+      - FRONT_HOST=todofront
+    depends_on:
+      - todoback
+      - todofront
+    #volumes:
+      #- tests_volume:/app/node_modules
+# volumes:
+#   frontend_volume:
+#   backend_volume:
+#   tests_volume:
